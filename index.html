@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Visitor Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
 <body>
-<button id="gps">Get GPS</button>
-<pre id="out"></pre>
-<script>
-document.getElementById("gps").addEventListener("click", () => {
-  console.log("GPS button clicked");
-  if ("geolocation" in navigator) {
-    navigator.geolocation.getCurrentPosition(pos => {
-      document.getElementById("out").textContent =
-        `Lat: ${pos.coords.latitude}, Lng: ${pos.coords.longitude}, Acc: ${pos.coords.accuracy}m`;
-    }, err => {
-      document.getElementById("out").textContent = "Error: " + err.message;
-    }, { enableHighAccuracy: true });
-  } else {
-    document.getElementById("out").textContent = "Geolocation not supported";
-  }
-});
-</script>
+  <h1>Visitor Tracker</h1>
+  <p>This will collect your visit information for analytics.</p>
+
+  <button id="getLocation">Get Location & Save</button>
+  <pre id="output"></pre>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js"></script>
+
+  <!-- Main Script -->
+  <script src="script.js"></script>
 </body>
 </html>
