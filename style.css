@@ -5,17 +5,6 @@ body {
   text-align: center;
   padding: 20px;
 }
-button {
-  padding: 10px 20px;
-  background: #4CAF50;
-  border: none;
-  border-radius: 5px;
-  color: white;
-  cursor: pointer;
-}
-button:hover {
-  background: #45a049;
-}
 pre {
   background: #1e1e1e;
   padding: 15px;
