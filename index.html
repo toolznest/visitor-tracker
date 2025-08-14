@@ -1,23 +1,22 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title>Visitor Tracker</title>
-  <link rel="stylesheet" href="style.css">
-</head>
 <body>
-  <h1>Welcome to My Site</h1>
-  <p>This page will collect visit info for analytics.</p>
-
-  <button id="getLocation">Get Location & Save</button>
-  <pre id="output"></pre>
-
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js"></script>
-  
-  <!-- Main Script -->
-  <script src="script.js"></script>
+<button id="gps">Get GPS</button>
+<pre id="out"></pre>
+<script>
+document.getElementById("gps").addEventListener("click", () => {
+  console.log("GPS button clicked");
+  if ("geolocation" in navigator) {
+    navigator.geolocation.getCurrentPosition(pos => {
+      document.getElementById("out").textContent =
+        `Lat: ${pos.coords.latitude}, Lng: ${pos.coords.longitude}, Acc: ${pos.coords.accuracy}m`;
+    }, err => {
+      document.getElementById("out").textContent = "Error: " + err.message;
+    }, { enableHighAccuracy: true });
+  } else {
+    document.getElementById("out").textContent = "Geolocation not supported";
+  }
+});
+</script>
 </body>
 </html>
