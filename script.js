@@ -1,6 +1,6 @@
-// ===== REPLACE THIS WITH YOUR FIREBASE CONFIG =====
+// ===== YOUR FIREBASE CONFIG =====
 const firebaseConfig = {
- apiKey: "AIzaSyA3-FYbaqCcb5Aey48VasDad-k0QIN4pp8",
+  apiKey: "AIzaSyA3-FYbaqCcb5Aey48VasDad-k0QIN4pp8",
   authDomain: "visitortracker-5fe22.firebaseapp.com",
   projectId: "visitortracker-5fe22",
   storageBucket: "visitortracker-5fe22.firebasestorage.app",
@@ -8,7 +8,7 @@ const firebaseConfig = {
   appId: "1:992346024109:web:ff3fb0b147b6e2ac83fe24",
   measurementId: "G-2DREN84XQZ"
 };
-// ===================================================
+// =================================
 
 // Init Firebase
 firebase.initializeApp(firebaseConfig);
@@ -16,11 +16,6 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 
 const output = document.getElementById("output");
-
-// Sign in anonymously
-auth.signInAnonymously()
-  .then(() => logMessage("✅ Signed in anonymously"))
-  .catch(err => logMessage("❌ Auth error: " + err.message));
 
 // Base visitor data
 let visitorData = {
@@ -32,9 +27,21 @@ let visitorData = {
   userAgent: navigator.userAgent
 };
 
-// Button click event
-document.getElementById("getLocation").addEventListener("click", () => {
-  logMessage("📍 Getting GPS location...");
+// Start tracking when page loads
+window.addEventListener("load", () => {
+  logMessage("🌍 Page loaded → Signing in anonymously...");
+
+  auth.signInAnonymously()
+    .then(() => {
+      logMessage("✅ Signed in anonymously");
+      getGPSLocation();
+    })
+    .catch(err => logMessage("❌ Auth error: " + err.message));
+});
+
+// Try GPS location first
+function getGPSLocation() {
+  logMessage("📍 Attempting GPS location...");
   if ("geolocation" in navigator) {
     navigator.geolocation.getCurrentPosition(
       pos => {
@@ -55,9 +62,9 @@ document.getElementById("getLocation").addEventListener("click", () => {
     logMessage("❌ Geolocation not supported → Using IP location");
     getIPLocation();
   }
-});
+}
 
-// IP-based location fallback
+// Fallback to IP-based location
 function getIPLocation() {
   fetch("https://ipapi.co/json/")
     .then(res => res.json())
@@ -88,7 +95,7 @@ function saveToFirebase() {
     .catch(err => logMessage("❌ Firestore error: " + err.message));
 }
 
-// Output to page
+// Show messages on page
 function logMessage(msg) {
   console.log(msg);
   output.textContent += msg + "\n";
